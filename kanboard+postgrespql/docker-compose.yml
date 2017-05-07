@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+  postgresql:
+    restart: always
+    image: postgresql:9.6.2
+    environment: 
+    - POSTGRES_PASSWORD=!!!change_this!!!
+
+  kanboard:
+    restart: always
+    image: kanboard/kanboard:stable
+    volumes: 
+    - /srv/docker/kanboard/data:/var/www/app/data
+    - /srv/docker/kanboard/plugins:/var/www/app/plugins
+    ports:
+    - "8081:80"
+    environment: 
+    - DATABASE_URL=postgres://postgres@postgresql:5432/kanboard
+    depends_on:
+      - postgresql
